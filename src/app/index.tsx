@@ -1,98 +1,100 @@
-import * as Device from 'expo-device';
-import { Platform, StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { createLoadingStyles } from "@/assets/styles/Loading.styles";
+import useTheme from "@/hooks/useTheme";
+import { Ionicons } from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
+import { router } from "expo-router";
+import React, { useEffect, useRef, useState } from "react";
+import { Animated, Easing, Text, View } from "react-native";
 
-import { AnimatedIcon } from '@/components/animated-icon';
-import { HintRow } from '@/components/hint-row';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { WebBadge } from '@/components/web-badge';
-import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
+const Index = () => {
+  const { theme } = useTheme();
+  const loadingStyles = createLoadingStyles(theme);
 
-function getDevMenuHint() {
-  if (Platform.OS === 'web') {
-    return <ThemedText type="small">use browser devtools</ThemedText>;
-  }
-  if (Device.isDevice) {
-    return (
-      <ThemedText type="small">
-        shake device or press <ThemedText type="code">m</ThemedText> in terminal
-      </ThemedText>
-    );
-  }
-  const shortcut = Platform.OS === 'android' ? 'cmd+m (or ctrl+m)' : 'cmd+d';
+  const progress = useRef(new Animated.Value(0)).current;
+  const [progressText, setProgressText] = useState(0);
+
+  useEffect(() => {
+    Animated.timing(progress, {
+      toValue: 90,
+      duration: 3000,
+      easing: Easing.out(Easing.ease),
+      useNativeDriver: false,
+    }).start();
+
+    const listener = progress.addListener(({ value }) => {
+      setProgressText(Math.floor(value));
+    });
+
+    const initializeApp = async () => {
+      await new Promise((resolve) => setTimeout(resolve, 3500));
+
+      const hasUser = false;
+
+      if (hasUser) {
+        router.replace("/(tabs)/home");
+        console.log("User found!");
+      } else {
+        router.replace("/(auth)/login");
+      }
+    };
+
+    initializeApp();
+
+    return () => {
+      progress.removeListener(listener);
+    };
+  }, []);
+
+  const progressWidth = progress.interpolate({
+    inputRange: [0, 100],
+    outputRange: ["0%", "100%"],
+  });
+
   return (
-    <ThemedText type="small">
-      press <ThemedText type="code">{shortcut}</ThemedText>
-    </ThemedText>
-  );
-}
+    <View style={loadingStyles.container}>
+      <View style={loadingStyles.centerContainer}>
+        <View style={loadingStyles.iconContainer}>
+          <LinearGradient
+            colors={theme.colors.gradients.primary}
+            style={loadingStyles.loadingIcon}
+          >
+            <Ionicons
+              name="checkmark-circle-outline"
+              size={35}
+              color={theme.colors.bg}
+            />
+          </LinearGradient>
+        </View>
 
-export default function HomeScreen() {
-  return (
-    <ThemedView style={styles.container}>
-      <SafeAreaView style={styles.safeArea}>
-        <ThemedView style={styles.heroSection}>
-          <AnimatedIcon />
-          <ThemedText type="title" style={styles.title}>
-            Welcome to&nbsp;Expo
-          </ThemedText>
-        </ThemedView>
+        <View style={loadingStyles.textContainer}>
+          <Text style={loadingStyles.heading}>HabitFlow</Text>
 
-        <ThemedText type="code" style={styles.code}>
-          get started
-        </ThemedText>
+          <Text style={loadingStyles.subHeading}>
+            Aligning your daily rhythm
+          </Text>
+        </View>
+      </View>
 
-        <ThemedView type="backgroundElement" style={styles.stepContainer}>
-          <HintRow
-            title="Try editing"
-            hint={<ThemedText type="code">src/app/index.tsx</ThemedText>}
+      <View style={loadingStyles.loadingWrapper}>
+        <View style={loadingStyles.loadingHeader}>
+          <Text style={loadingStyles.loadingText}>Synchronizing...</Text>
+
+          <Text style={loadingStyles.loadingPercent}>{progressText}%</Text>
+        </View>
+
+        <View style={loadingStyles.progressBarBackground}>
+          <Animated.View
+            style={[
+              loadingStyles.progressBarFill,
+              {
+                width: progressWidth,
+              },
+            ]}
           />
-          <HintRow title="Dev tools" hint={getDevMenuHint()} />
-          <HintRow
-            title="Fresh start"
-            hint={<ThemedText type="code">npm run reset-project</ThemedText>}
-          />
-        </ThemedView>
-
-        {Platform.OS === 'web' && <WebBadge />}
-      </SafeAreaView>
-    </ThemedView>
+        </View>
+      </View>
+    </View>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    flexDirection: 'row',
-  },
-  safeArea: {
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    alignItems: 'center',
-    gap: Spacing.three,
-    paddingBottom: BottomTabInset + Spacing.three,
-    maxWidth: MaxContentWidth,
-  },
-  heroSection: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    gap: Spacing.four,
-  },
-  title: {
-    textAlign: 'center',
-  },
-  code: {
-    textTransform: 'uppercase',
-  },
-  stepContainer: {
-    gap: Spacing.three,
-    alignSelf: 'stretch',
-    paddingHorizontal: Spacing.three,
-    paddingVertical: Spacing.four,
-    borderRadius: Spacing.four,
-  },
-});
+export default Index;
