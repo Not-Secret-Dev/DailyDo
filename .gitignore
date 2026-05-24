@@ -1,43 +1,89 @@
-# Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
+# Learn more: https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
 
-# dependencies
+# 🔐 Environment & Secrets (CRITICAL)
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+*.p12
+*.p8
+*.jks
+*.mobileprovision
+
+# 📦 Dependencies
 node_modules/
 
-# Expo
+# 🚀 Expo & Build Outputs
 .expo/
 dist/
 web-build/
 expo-env.d.ts
+*.app
+*.apk
+*.aab
+*.ipa
+*.zip
+*.tar.gz
 
-# Native
-.kotlin/
+# 📱 Native Platforms (unless you're customizing native code)
+/ios
+/android
 *.orig.*
-*.jks
-*.p8
-*.p12
-*.key
-*.mobileprovision
 
-# Metro
+# 🧵 Kotlin/Gradle cache
+.kotlin/
+.gradle/
+*.jar
+*.war
+*.ear
+
+# 📊 Metro & Bundler
 .metro-health-check*
+*.bundle
+*.map
 
-# debug
+# 🐛 Debug Logs
 npm-debug.*
 yarn-debug.*
 yarn-error.*
+*.log
 
-# macOS
+# 🍎 macOS
 .DS_Store
-*.pem
+.AppleDouble
+.LSOverride
+._*
 
-# local env files
-.env*.local
+# 🪟 Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
 
-# typescript
+# 💻 TypeScript
 *.tsbuildinfo
+.next/
+out/
 
-app-example
+# 🗂️ IDE & Editor
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
 
-# generated native folders
-/ios
-/android
+# 🧪 Test & Coverage
+coverage/
+.nyc_output/
+*.lcov
+
+# 🗑️ Misc
+app-example/
+*.iml
+*.pid
+*.seed
+*.log
+*.pid
+*.pem
+*.key

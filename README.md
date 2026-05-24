@@ -1,56 +1,185 @@
-# Welcome to your Expo app 👋
+# DailyDo 📅✨
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+> A modern, cloud-ready habit tracking application built with **React Native**, **Expo**, and **Supabase**. Designed to help users build consistency, track progress, and stay productive through a clean, scalable UI and intelligent tracking architecture.
 
-## Get started
+---
 
-1. Install dependencies
+## 📖 Overview
 
-   ```bash
-   npm install
-   ```
+DailyDo is a cross-platform habit tracker focused on simplicity, performance, and user retention. It currently features a fully functional local tracking system with a polished UI, Supabase-backed authentication, and a modular architecture built for seamless cloud sync, real-time updates, and advanced analytics.
 
-2. Start the app
+The app is structured for scalability: themed components, TypeScript-first data models, centralized services, and a clear separation between UI state and storage logic.
 
-   ```bash
-   npx expo start
-   ```
+---
 
-In the output, you'll find options to open the app in a
+## ✅ Current Features
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+### 🔐 Authentication
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+- Supabase email/password login & signup
+- Secure session management & user profile storage
 
-## Get a fresh project
+### 📋 Habit Tracking (Local)
 
-When you're ready, run:
+- `AsyncStorage`-based persistence with structured JSON models
+- Dynamic "Habits for Today" dashboard
+- Real-time completion counter & empty state handling
+- Completion toggle architecture with persistent state updates
 
-```bash
-npm run reset-project
+### ➕ Habit Creation Flow
+
+- Bottom-sheet modal with form validation
+- Habit metadata: `id`, `title`, `icon`, `frequency`, `duration`, `reminderEnabled`, `reminderTime`
+- Native time picker integration for reminder scheduling
+- Reusable, theme-driven input components
+
+### 🎨 UI & Architecture
+
+- Centralized theme system with consistent spacing & typography
+- Fully typed TypeScript interfaces across components & services
+- Modular component structure ready for navigation, settings, & analytics
+- Optimized state updates & clean component boundaries
+
+---
+
+## 🚧 Next Phase & Roadmap
+
+### ☁️ Cloud Sync & Supabase Integration
+
+- Create `habits` table with `user_id` foreign key
+- Implement full CRUD: create, fetch, update, delete, toggle completion
+- Enable Supabase Realtime for instant cross-device sync
+- Migrate from `AsyncStorage` to cloud-first with offline fallback
+
+### 📱 Notification System
+
+- Integrate `expo-notifications`
+- Request & handle notification permissions
+- Schedule daily reminders based on user-selected time
+- Auto-cancel/reschedule on habit edit or deletion
+
+### 📊 Progress & Analytics Engine
+
+- Streak tracking & daily reset logic
+- Missed habit detection & recovery prompts
+- Weekly/monthly completion analytics
+- Optional calendar view & statistics dashboard
+
+### 🎨 UI/UX Enhancements
+
+- Complete habit card design with icons, duration badges & progress rings
+- Swipe gestures / long-press menus for edit & delete
+- Micro-interactions & animation feedback (Reanimated / Moti)
+- Responsive spacing & dark/light theme support
+
+### 🏗️ Architectural Refactor
+
+- Extract habit logic into reusable hooks (`useHabits`, `useReminders`, `useStreaks`)
+- Separate UI state from storage/business logic
+- Improve type safety & reduce unnecessary re-renders
+- Implement error boundaries & loading states for async operations
+
+### 🔮 Future Features
+
+- Onboarding flow & app walkthrough
+- User settings, cloud backup & data export
+- Achievement badges & motivational quotes
+- Advanced offline sync & conflict resolution
+- Social sharing & accountability features
+
+---
+
+## 🛠 Tech Stack
+
+| Category         | Technology                                  |
+| ---------------- | ------------------------------------------- |
+| Framework        | React Native + Expo                         |
+| Language         | TypeScript                                  |
+| Auth & Backend   | Supabase (PostgreSQL, Auth, Realtime)       |
+| Local Storage    | `@react-native-async-storage/async-storage` |
+| Navigation       | React Navigation                            |
+| Notifications    | `expo-notifications` (planned)              |
+| Animations       | React Native Reanimated / Moti (planned)    |
+| State Management | React Hooks + Context + Custom Services     |
+| Styling          | Centralized Theme + StyleSheet / NativeWind |
+
+---
+
+## 📁 Project Structure
+
+```
+src/
+├── assets/          # Images, icons, fonts
+├── components/      # Reusable UI (buttons, inputs, cards, modals)
+├── screens/         # Main app screens (Auth, Habits, Settings, etc.)
+├── services/        # AsyncStorage, Supabase, Notifications, Helpers
+├── hooks/           # Custom hooks (useHabits, useAuth, useTheme)
+├── styles/          # Centralized theme, spacing, typography, utilities
+├── types/           # TypeScript interfaces & type guards
+├── utils/           # Formatters, date logic, validation
+└── navigation/      # Root & app navigators
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+---
 
-### Other setup steps
+## 🚀 Getting Started
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+### Prerequisites
 
-## Learn more
+- Node.js `>= 18`
+- npm / yarn / pnpm
+- Expo CLI: `npm install -g expo-cli`
+- A [Supabase](https://supabase.com) project
 
-To learn more about developing your project with Expo, look at the following resources:
+### Installation
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+```bash
+# Clone the repository
+git clone https://github.com/Not-Secret-Dev/dailydo.git
+cd dailydo
 
-## Join the community
+# Install dependencies
+npm install
 
-Join our community of developers creating universal apps.
+# Start the Expo development server
+npx expo start
+```
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Scan the QR code with the **Expo Go** app (iOS/Android) or run on a simulator/emulator.
+
+---
+
+## 🔑 Environment Setup
+
+Create a `.env` file in the root directory:
+
+```env
+EXPO_PUBLIC_SUPABASE_URL=your_supabase_project_url
+EXPO_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+```
+
+> 🔒 Never commit `.env` to version control. Supabase Row Level Security (RLS) should be enabled on all tables.
+
+---
+
+## 📝 Development Guidelines
+
+- Follow the centralized theme for all UI components
+- Keep storage & business logic isolated in `services/` and `hooks/`
+- Use TypeScript strictly; avoid `any`
+- Test async operations with loading & error states
+- Commit messages should follow conventional commits (`feat:`, `fix:`, `refactor:`, etc.)
+
+---
+
+## 🤝 Contributing
+
+Pull requests are welcome. For major changes, please open an issue first to discuss what you'd like to implement.
+
+1. Fork the repo
+2. Create your feature branch (`git checkout -b feat/amazing-feature`)
+3. Commit your changes (`git commit -m 'feat: add amazing feature'`)
+4. Push to the branch (`git push origin feat/amazing-feature`)
+5. Open a Pull Request
+
+> Built with ❤️ by **Aayan Mumtaz** | DailyDo © 2026
